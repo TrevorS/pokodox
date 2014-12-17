@@ -2,8 +2,6 @@
 
 Pokodox: https://pokodox.herokuapp.com/
 
-###### Usage
-
 Status:
 ```bash
 $ curl https://pokodox.herokuapp.com
