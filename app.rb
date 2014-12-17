@@ -8,15 +8,8 @@ get '/' do
 end
 
 get '/pokez/:id' do
-  id = params[:id].to_i
-  poke(id) if id > 0 && id <= 152
-end
-
-def artwork(name)
-  "http://img.pokemondb.net/artwork/#{name.downcase}.jpg"
-end
-
-def poke(id)
-  name = POKEZ[id - 1]
-  { id: id, name: name, url: artwork(name) }.to_json
+  id      = params[:id].to_i
+  name    = POKEZ[id - 1]
+  artwork = "http://img.pokemondb.net/artwork/#{name.sub('. ', '-').downcase}.jpg"
+  { id: id, name: name, url: artwork }.to_json if id > 0 && id <= 152
 end
