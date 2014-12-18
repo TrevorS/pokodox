@@ -1,14 +1,21 @@
 require 'bundler'
 Bundler.require
 
+class Array
+  def catch_em(id) { id: id, name: self[id - 1][0], url: self[id - 1][1] } end
+  def catch_random() self.catch_em(rand(1..self.size)) end
+end
+
 POKEZ = File.readlines('pokez.csv').map(&:chop).map { |e| e.split(',') }
 
 get '/' do
-  { status: :ok, count: POKEZ.count }.to_json
+  json({ status: :ok, count: POKEZ.count })
+end
+
+get '/random' do
+  json POKEZ.catch_random
 end
 
 get '/pokez/:id' do
-  id      = params[:id].to_i
-  pokemon = POKEZ[id - 1]
-  { id: id, name: pokemon[0], url: pokemon[1] }.to_json if id > 0 && id <= 152
+  json POKEZ.catch_em(params[:id].to_i)
 end
